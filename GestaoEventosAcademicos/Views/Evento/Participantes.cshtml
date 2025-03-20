@@ -1,0 +1,51 @@
+﻿@model GestaoEventosAcademicos.Models.Evento
+
+@{
+    ViewData["Title"] = "Participantes do Evento";
+}
+
+<h2 class="text-primary text-center mb-4">Participantes do Evento</h2>
+
+<!-- Card com os detalhes do evento -->
+<div class="card shadow-lg rounded border-0 mb-4">
+    <div class="card-body bg-light">
+        <h4 class="card-title text-primary">@Model.Nome</h4>
+        <p class="mb-1"><strong>Local:</strong> @Model.Local</p>
+        <p class="mb-1"><strong>Data:</strong> @Model.Data.ToString("dd/MM/yyyy")</p>
+        <p class="mb-0"><strong>Administrador:</strong> @Model.Administrador.Nome</p>
+    </div>
+</div>
+
+<!-- Lista de participantes -->
+@if (Model.Participantes != null && Model.Participantes.Any())
+{
+    <div class="row">
+        @foreach (var participante in Model.Participantes)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm border-0 rounded">
+                    <div class="card-body">
+                        <h5 class="card-title text-dark">@participante.Nome</h5>
+                        <p class="card-text"><strong>Email:</strong> @participante.Email</p>
+                        <a asp-action="CancelarInscricao" asp-route-id="@participante.ParticipanteID" class="btn btn-danger btn-sm">
+                            <i class="bi bi-x-circle"></i> Cancelar Inscrição
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-warning text-center" role="alert">
+        Nenhum participante inscrito neste evento.
+    </div>
+}
+
+<!-- Botão de voltar -->
+<div class="text-center mt-4">
+    <a asp-action="Index" class="btn btn-secondary btn-lg">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+</div>

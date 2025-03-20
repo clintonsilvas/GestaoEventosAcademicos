@@ -1,0 +1,47 @@
+﻿@model GestaoEventosAcademicos.Models.Evento
+
+@{
+    ViewData["Title"] = "Inscrever Participante";
+}
+
+<h1 class="mb-4">Inscrever Participante no Evento</h1>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<div class="card shadow-sm p-4 mb-4">
+    <h4 class="mb-3">@Model.Nome</h4>
+    <p><strong>Local:</strong> @Model.Local</p>
+    <p><strong>Data:</strong> @Model.Data.ToString("dd/MM/yyyy")</p>
+</div>
+
+<form asp-action="InscreverParticipante" method="post">
+    <input type="hidden" name="id" value="@Model.EventoID" />
+
+    <div class="form-group mb-3">
+        <label for="participanteId" class="form-label">Selecione um Participante:</label>
+        <div class="d-flex">
+            <select name="participanteId" id="participanteId" class="form-control me-2">
+                @foreach (var participante in ViewBag.Participantes)
+                {
+                    <option value="@participante.ParticipanteID">@participante.Nome</option>
+                }
+            </select>
+            <p>
+                <a asp-controller="Participante" asp-action="Create" asp-route-returnUrl="@Context.Request.Path">Cadastrar Novo Participante</a>
+            </p>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Inscrever</button>
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</form>
+
+ 

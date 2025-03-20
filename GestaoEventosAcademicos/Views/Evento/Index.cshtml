@@ -1,0 +1,63 @@
+﻿@model IEnumerable<GestaoEventosAcademicos.Models.Evento>
+
+@{
+    ViewData["Title"] = "Eventos";
+}
+
+<h1 class="mb-4">Eventos Acadêmicos</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    @foreach (var evento in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm rounded-lg border-0">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">@evento.Nome</h5>
+                    <p class="card-text">
+                        <strong>Data:</strong> @evento.Data.ToShortDateString() <br />
+                        <strong>Descrição:</strong> @evento.Local
+                    </p>
+
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <!-- Ícones para ações -->
+                            <a asp-action="Edit" asp-route-id="@evento.EventoID" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-pencil-square"></i> <!-- Ícone de edição -->
+                            </a>
+                            <a asp-action="Details" asp-route-id="@evento.EventoID" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-eye"></i> <!-- Ícone de detalhes -->
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@evento.EventoID" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash"></i> <!-- Ícone de exclusão -->
+                            </a>
+                        </div>
+
+                        <div>
+                            <!-- Botão destacado para ver participantes -->
+                            <a asp-action="Participantes" asp-route-id="@evento.EventoID" class="btn btn-info btn-sm text-white">
+                                <i class="bi bi-people-fill"></i> Ver Participantes
+                            </a>
+
+                            <!-- Botão destacado para inscrever participante -->
+                            <a asp-action="InscreverParticipante" asp-route-id="@evento.EventoID" class="btn btn-success btn-sm text-white">
+                                <i class="bi bi-person-plus-fill"></i> Inscrever
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<a asp-action="Create" class="btn btn-primary mt-3">
+    <i class="bi bi-plus-circle"></i> Novo Evento
+</a>
