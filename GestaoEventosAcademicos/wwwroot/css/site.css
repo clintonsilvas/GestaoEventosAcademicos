@@ -20,3 +20,17 @@ html {
 body {
   margin-bottom: 60px;
 }
+nav{
+    margin-bottom:2em;
+}
+
+.nav-link:hover {
+    color: #0dcaf0 !important; /* Azul claro no hover */
+}
+.container {
+    min-height: 90%;
+}
+
+.footer a:hover {
+    color: #0dcaf0 !important; /* Azul claro no hover */
+}

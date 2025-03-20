@@ -41,6 +41,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Evento}/{action=Index}/{id?}");
 SeedData.EnsurePopulated(app);
 app.Run();

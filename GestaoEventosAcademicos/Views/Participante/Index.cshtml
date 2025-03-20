@@ -1,85 +1,60 @@
 ﻿@model IEnumerable<GestaoEventosAcademicos.Models.Participante>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Participantes";
 }
 
-<h1>Index</h1>
+<h1 class="mb-4">Participantes</h1>
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Sucesso!</strong> @TempData["SuccessMessage"]
+        @TempData["SuccessMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="row">
+    @foreach (var participante in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm rounded-lg border-0">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">
+                        <i class="bi bi-person-fill"></i> @participante.Nome
+                    </h5>
+                    <p class="card-text">
+                        <strong>Email:</strong> @participante.Email <br />
+                        <strong>Telefone:</strong> @participante.Telefone <br />
+                        <strong>Curso:</strong> @participante.Curso.Nome <br />
+                        <strong>Evento:</strong> @(participante.Evento != null ? participante.Evento.Nome : "Não vinculado")
+                    </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataNascimento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Senha)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Certificado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Curso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Evento)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataNascimento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Senha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Certificado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Curso.CursoID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Evento.EventoID)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ParticipanteID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ParticipanteID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ParticipanteID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>    
-</table>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@participante.ParticipanteID" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@participante.ParticipanteID" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@participante.ParticipanteID" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+
+                        <div>
+                            <a asp-action="GerarCertificado" asp-route-id="@participante.ParticipanteID" class="btn btn-success btn-sm text-white">
+                                <i class="bi bi-file-earmark-text-fill"></i> Certificado
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<a asp-action="Create" class="btn btn-primary mt-3">
+    <i class="bi bi-plus-circle"></i> Novo Participante
+</a>

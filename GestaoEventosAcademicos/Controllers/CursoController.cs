@@ -29,17 +29,7 @@ namespace GestaoEventosAcademicos.Controllers
             context.SaveChanges();
             return RedirectToAction("Index");
         }
-        public IActionResult Details(int id)
-        {
-            var curso = context.Cursos.FirstOrDefault(c => c.CursoID == id);
-            if (curso == null)
-            {
-                return NotFound();
-            }
-            return View(curso);
-        }
-
-        public IActionResult Edit(int id)
+         public IActionResult Edit(int id)
         {
             var curso = context.Cursos.Find(id);
             if (curso == null)
@@ -79,10 +69,11 @@ namespace GestaoEventosAcademicos.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Participantes(int id)
+        public IActionResult AlunosCurso(int id)
         {
             var curso = context.Cursos
-                                .Include(c => c.Participantes)                                
+                                .Include(c => c.Participantes)
+                                    .ThenInclude(p => p.Evento)
                                 .FirstOrDefault(c => c.CursoID == id);
 
             if (curso == null)
@@ -92,5 +83,6 @@ namespace GestaoEventosAcademicos.Controllers
 
             return View(curso);
         }
+
     }
 }

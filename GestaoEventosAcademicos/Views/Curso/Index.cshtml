@@ -1,35 +1,48 @@
 ﻿@model IEnumerable<GestaoEventosAcademicos.Models.Curso>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Cursos";
 }
 
-<h1>Index</h1>
+<h1 class="mb-4">Cursos Acadêmicos</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CursoID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CursoID">Alunos do Curso</a> |
-                <a asp-action="Delete" asp-route-id="@item.CursoID">Delete</a>             
-            </td>
-        </tr>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
-    </tbody>
-</table>
+
+<div class="row">
+    @foreach (var curso in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm rounded-lg border-0">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">
+                        <i class="bi bi-book-fill"></i> @curso.Nome
+                    </h5>
+
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@curso.CursoID" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a asp-action="AlunosCurso" asp-route-id="@curso.CursoID" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-people-fill"></i> Alunos
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@curso.CursoID" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<a asp-action="Create" class="btn btn-primary mt-3">
+    <i class="bi bi-plus-circle"></i> Novo Curso
+</a>
