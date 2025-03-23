@@ -27,7 +27,7 @@ namespace GestaoEventosAcademicos.Models
             {
                 relationship.DeleteBehavior = DeleteBehavior.NoAction; // Ou DeleteBehavior.SetNull
             }
-            SeedData.Initialize(modelBuilder);
+            
             base.OnModelCreating(modelBuilder);
         }
 
