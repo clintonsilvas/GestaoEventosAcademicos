@@ -1,10 +1,12 @@
 ﻿using GestaoEventosAcademicos.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestaoEventosAcademicos.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class CursoController : Controller
     {
         public Context context;
@@ -13,7 +15,7 @@ namespace GestaoEventosAcademicos.Controllers
             context = ctx;
         }
         public IActionResult Index()
-        {
+        {            
             var cursos = context.Cursos.Include(c => c.Participantes);
             return View(cursos);
         }
@@ -72,14 +74,8 @@ namespace GestaoEventosAcademicos.Controllers
         public IActionResult AlunosCurso(int id)
         {
             var curso = context.Cursos
-                                .Include(c => c.Participantes)
-                                    .ThenInclude(p => p.Evento)
-                                .FirstOrDefault(c => c.CursoID == id);
-
-            if (curso == null)
-            {
-                return NotFound();
-            }
+                                .Include(c => c.Participantes)                                  
+                                .FirstOrDefault(c => c.CursoID == id);           
 
             return View(curso);
         }

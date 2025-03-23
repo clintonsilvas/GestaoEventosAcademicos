@@ -14,6 +14,14 @@
     </div>
 }
 
+@if (TempData["Erro"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Erro"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div class="row">
     @foreach (var evento in Model)
     {
@@ -40,15 +48,9 @@
                             </a>
                         </div>
 
-                        <div>
-                            <!-- Botão destacado para ver participantes -->
-                            <a asp-action="Participantes" asp-route-id="@evento.EventoID" class="btn btn-info btn-sm text-white">
-                                <i class="bi bi-people-fill"></i> Ver Participantes
-                            </a>
-
-                            <!-- Botão destacado para inscrever participante -->
-                            <a asp-action="InscreverParticipante" asp-route-id="@evento.EventoID" class="btn btn-success btn-sm text-white">
-                                <i class="bi bi-person-plus-fill"></i> Inscrever
+                        <div>                                                   
+                            <a asp-action="Participantes" asp-route-id="@evento.EventoID" class="btn btn-success btn-sm text-white">
+                                <i class="bi bi-person-plus-fill"></i> Ver participantes
                             </a>
                         </div>
                     </div>

@@ -10,7 +10,7 @@
         public string CodigoParticipacao { get; set; }
         public int Capacidade { get; set; }
 
-        public int AdministradorID {  get; set; }
+        public string AdministradorID { get; set; }
         public Administrador Administrador { get; set; }
 
         public ICollection<Participante> Participantes { get; set; }    

@@ -1,0 +1,26 @@
+﻿@model GestaoEventosAcademicos.Models.Evento
+
+@{
+    ViewData["Title"] = "Cancelar Inscrição";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm border-0 rounded-lg">
+        <div class="card-body text-center">
+            <h2 class="text-danger">Tem certeza que deseja cancelar sua inscrição?</h2>
+            <p class="fw-bold">@Model.Nome</p>
+            <p><strong>Data:</strong> @Model.Data.ToString("dd/MM/yyyy")</p>
+            <p><strong>Local:</strong> @Model.Local</p>
+
+            <form asp-action="CancelarInscricao" method="post">
+                <input type="hidden" name="eventoId" value="@Model.EventoID" />
+                <button type="submit" class="btn btn-danger me-2">
+                    <i class="bi bi-x-circle"></i> Confirmar Cancelamento
+                </button>
+                <a asp-action="MeusEventos" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+            </form>
+        </div>
+    </div>
+</div>

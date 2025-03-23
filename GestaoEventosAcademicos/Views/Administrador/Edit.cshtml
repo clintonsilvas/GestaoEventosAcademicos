@@ -1,0 +1,48 @@
+﻿@model GestaoEventosAcademicos.Models.Administrador
+
+@{
+    ViewData["Title"] = "Editar Administrador";
+}
+
+<h2 class="text-primary"><i class="bi bi-pencil-square"></i> Editar Administrador</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card shadow-lg p-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="Nome" class="form-label"></label>
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Telefone" class="form-label"></label>
+                    <input asp-for="Telefone" class="form-control" />
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Salvar</button>
+                    <a asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,31 @@
+﻿@model List<GestaoEventosAcademicos.Models.Evento>
+
+@{
+    ViewData["Title"] = "Meus Eventos";
+}
+
+<h2>Meus Eventos Inscritos</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Data</th>
+            <th>Local</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var evento in Model)
+        {
+            <tr>
+                <td>@evento.Nome</td>
+                <td>@evento.Data.ToString("dd/MM/yyyy")</td>
+                <td>@evento.Local</td>
+                <td>
+                    <a class="btn btn-danger" asp-action="ConfirmarCancelarInscricao" asp-route-eventoId="@evento.EventoID">Cancelar Inscrição</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,30 @@
+﻿@model GestaoEventosAcademicos.Models.Administrador
+
+@{
+    ViewData["Title"] = "Detalhes do Administrador";
+}
+
+<h2 class="text-primary"><i class="bi bi-info-circle"></i> Detalhes do Administrador</h2>
+<hr />
+
+<div class="card shadow-lg p-4">
+    <dl class="row">
+        <dt class="col-sm-3 fw-bold">Nome:</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Nome)</dd>
+
+        <dt class="col-sm-3 fw-bold">Email:</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Email)</dd>
+
+        <dt class="col-sm-3 fw-bold">Telefone:</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Telefone)</dd>
+    </dl>
+</div>
+
+<div class="text-center mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">
+        <i class="bi bi-pencil"></i> Editar
+    </a>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+</div>

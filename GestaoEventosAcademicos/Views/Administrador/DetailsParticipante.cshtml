@@ -1,0 +1,31 @@
+﻿@model GestaoEventosAcademicos.Models.Participante
+
+@{
+    ViewData["Title"] = "Detalhes do Participante";
+}
+
+<h2 class="text-primary"><i class="bi bi-person-circle"></i> Detalhes do Participante</h2>
+<hr />
+
+<div class="card shadow-lg p-4">
+    <dl class="row">
+        <dt class="col-sm-4">Nome:</dt>
+        <dd class="col-sm-8">@Model.Nome</dd>
+
+        <dt class="col-sm-4">Email:</dt>
+        <dd class="col-sm-8">@Model.Email</dd>
+
+        <dt class="col-sm-4">Telefone:</dt>
+        <dd class="col-sm-8">@Model.Telefone</dd>
+
+        <dt class="col-sm-4">Curso:</dt>
+        <dd class="col-sm-8">@Model.Curso?.Nome</dd>
+
+        <dt class="col-sm-4">Data de Nascimento:</dt>
+        <dd class="col-sm-8">@Model.DataNascimento.ToString("dd/MM/yyyy")</dd>
+    </dl>
+
+    <div class="text-center">
+        <a asp-action="ListarParticipantes" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
+    </div>
+</div>

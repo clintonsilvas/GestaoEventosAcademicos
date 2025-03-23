@@ -1,0 +1,46 @@
+﻿@model IEnumerable<GestaoEventosAcademicos.Models.Evento>
+
+@{
+    ViewData["Title"] = "Eventos Administrados";
+}
+
+<h2 class="text-primary"><i class="bi bi-calendar-check"></i> Eventos Administrados</h2>
+<hr />
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">Este administrador ainda não gerenciou nenhum evento.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Local</th>
+                <th>Data</th>
+                <th>Capacidade</th>
+                <th>Participantes Inscritos</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var evento in Model)
+            {
+                <tr>
+                    <td>@evento.Nome</td>
+                    <td>@evento.Local</td>
+                    <td>@evento.Data.ToString("dd/MM/yyyy")</td>
+                    <td>@evento.Capacidade</td>
+                    <td>@(evento.Participantes?.Count() ?? 0)</td>
+                    <td>
+                        <a asp-controller="Evento" asp-action="Details" asp-route-id="@evento.EventoID" class="btn btn-info btn-sm">
+                            <i class="bi bi-eye"></i> Ver Detalhes
+                        </a>                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<a asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>

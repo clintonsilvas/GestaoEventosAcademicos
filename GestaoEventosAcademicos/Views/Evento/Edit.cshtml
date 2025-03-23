@@ -33,6 +33,30 @@
                     <span asp-validation-for="Data" class="text-danger"></span>
                 </div>
 
+                <div class="form-group mb-3">
+                    <label asp-for="Duração" class="form-label"></label>
+                    <input asp-for="Duração" class="form-control" />
+                    <span asp-validation-for="Duração" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="CodigoParticipacao" class="form-label"></label>
+                    <input asp-for="CodigoParticipacao" class="form-control" />
+                    <span asp-validation-for="CodigoParticipacao" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Capacidade" class="form-label"></label>
+                    <input asp-for="Capacidade" type="number" class="form-control" />
+                    <span asp-validation-for="Capacidade" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="AdministradorNome" class="form-label">Criador do Evento</label>
+                    <input type="text" class="form-control" id="AdministradorNome" value="@ViewBag.AdministradorNome" disabled />
+                    <input type="hidden" asp-for="AdministradorID" value="@ViewBag.AdministradorID" />
+                </div>
+
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Salvar</button>
                     <a asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
@@ -41,3 +65,9 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

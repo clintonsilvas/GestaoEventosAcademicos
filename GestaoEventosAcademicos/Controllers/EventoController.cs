@@ -2,26 +2,33 @@
 using GestaoEventosAcademicos.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace GestaoEventosAcademicos.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class EventoController : Controller
     {
         public Context context;
+        private readonly UserManager<Usuario> _userManager;
 
-        public EventoController(Context ctx)
+        public EventoController(Context ctx, UserManager<Usuario> userManager)
         {
             context = ctx;
+            _userManager = userManager;
         }
         public IActionResult Index()
-        {
+        {            
             var eventos = context.Eventos.Include(e => e.Administrador);
             return View(eventos);
         }
-
         public IActionResult Create()
         {
-            ViewBag.Administrador = new SelectList(context.Administradores.OrderBy(f => f.Nome), "AdministradorID", "Nome");
+            var adminId = _userManager.GetUserId(User); 
+            var admin = _userManager.Users.FirstOrDefault(u => u.Id == adminId); 
+            ViewBag.AdministradorID = adminId; 
+            ViewBag.AdministradorNome = admin.Nome;
             return View();
         }
 
@@ -34,35 +41,25 @@ namespace GestaoEventosAcademicos.Controllers
         }
         public IActionResult Details(int id)
         {
-            var evento = context.Eventos
-                                .Include(e => e.Administrador)
-                                .FirstOrDefault(e => e.EventoID == id);
-
-            if (evento == null)
-            {
-                return NotFound();
-            }
-
+            var evento = context.Eventos.Include(e => e.Administrador).FirstOrDefault(e => e.EventoID == id);
             return View(evento);
         }
 
         public IActionResult Edit(int id)
         {
+            var adminId = _userManager.GetUserId(User); // Obtém o ID do administrador logado 
+            var admin = _userManager.Users.FirstOrDefault(u => u.Id == adminId);
+
+            ViewBag.AdministradorID = adminId; // Passa o ID do administrador para a View
+            ViewBag.AdministradorNome = admin.Nome; // Passa o nome do administrador para exibição
             var evento = context.Eventos.Find(id);
-
-            if (evento == null)
-            {
-                return NotFound();
-            }
-
-            ViewBag.Administrador = new SelectList(context.Administradores.OrderBy(f => f.Nome), "AdministradorID", "Nome", evento.AdministradorID);
             return View(evento);
         }
 
+
         [HttpPost]
         public IActionResult Edit(Evento evento)
-        {
-            //avisa a EF que o registro será modificado
+        {          
             context.Entry(evento).State = EntityState.Modified;
             context.SaveChanges();
             return RedirectToAction("Index");
@@ -70,11 +67,7 @@ namespace GestaoEventosAcademicos.Controllers
 
         public IActionResult Delete(int id)
         {
-            var evento = context.Eventos.Include(f => f.Administrador).FirstOrDefault(p => p.EventoID == id);            
-            if (evento == null)
-            {
-                return NotFound();
-            }
+            var evento = context.Eventos.Include(f => f.Administrador).FirstOrDefault(p => p.EventoID == id);  
             return View(evento);
         }
 
@@ -86,71 +79,28 @@ namespace GestaoEventosAcademicos.Controllers
             return RedirectToAction("Index");
         }
 
+
+        //buscar participantes do evento e cabeçalho com dados do evento
         public IActionResult Participantes(int id)
         {
             var evento = context.Eventos
-                                .Include(e => e.Administrador)
-                                .Include(e => e.Participantes)
                                 .FirstOrDefault(e => e.EventoID == id);
 
             if (evento == null)
             {
-                return NotFound();
+                TempData["Erro"] = "Evento não encontrado.";
+                return RedirectToAction("Index");
             }
 
-            return View(evento);
+            var inscritos = context.Inscricoes
+                                   .Where(i => i.EventoID == id)
+                                   .Include(i => i.Participante) // Inclui os dados do participante
+                                   .Select(i => i.Participante) // Obtém apenas os participantes
+                                   .ToList();
+
+            ViewBag.Evento = evento; // Passa os detalhes do evento para a View
+            return View(inscritos);
         }
-
-        public IActionResult InscreverParticipante(int id)
-        {
-            var evento = context.Eventos
-                                .Include(e => e.Administrador)
-                                .Include(e => e.Participantes)
-                                .FirstOrDefault(e => e.EventoID == id);
-
-            if (evento == null)
-            {
-                return NotFound();
-            }
-
-            // Filtra participantes ainda não inscritos
-            var participantesDisponiveis = context.Participantes
-                                                  .Where(p => !evento.Participantes.Contains(p))
-                                                  .OrderBy(p => p.Nome)
-                                                  .ToList();
-
-            ViewBag.Participantes = participantesDisponiveis;
-            return View(evento);
-        }
-
-
-        [HttpPost]
-        public IActionResult InscreverParticipante(int id, int participanteId)
-        {
-            var evento = context.Eventos.Include(e => e.Participantes).FirstOrDefault(e => e.EventoID == id);
-            var participante = context.Participantes.FirstOrDefault(p => p.ParticipanteID == participanteId);
-
-            if (evento == null || participante == null)
-            {
-                return NotFound();
-            }
-
-            // Verifica se o participante já está inscrito
-            if (evento.Participantes.Any(p => p.ParticipanteID == participanteId))
-            {
-                TempData["ErrorMessage"] = "Participante já está inscrito neste evento.";
-                return RedirectToAction("InscreverParticipante", new { id });
-            }
-
-            // Adiciona o participante ao evento
-            evento.Participantes.Add(participante);
-            context.SaveChanges();
-
-            TempData["SuccessMessage"] = "Inscrição realizada com sucesso!";
-            return RedirectToAction("Index");
-        }
-
-
 
     }
 }

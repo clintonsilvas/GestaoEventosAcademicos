@@ -1,0 +1,51 @@
+﻿@model IEnumerable<GestaoEventosAcademicos.Models.Usuario>
+
+<h2>Lista de Participantes</h2>
+
+@if (TempData["Sucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Sucesso"]
+    </div>
+}
+@if (TempData["Erro"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Erro"]
+    </div>
+}
+
+<a asp-action="CreateParticipante" class="btn btn-success mb-3">Adicionar Participante</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var participante in Model)
+        {
+            <tr>
+                <td>@participante.Nome</td>
+                <td>@participante.Email</td>
+                <td>@participante.Telefone</td>
+                <td>
+                    <a asp-action="EditParticipante" asp-route-id="@participante.Id" class="btn btn-primary btn-sm">
+                        <i class="bi bi-pencil-square"></i> Editar
+                    </a>
+                    <a asp-action="DetailsParticipante" asp-route-id="@participante.Id" class="btn btn-info btn-sm">
+                        <i class="bi bi-eye"></i> Detalhes
+                    </a>
+                    <a asp-action="DeleteParticipante" asp-route-id="@participante.Id" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> Deletar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

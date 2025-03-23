@@ -50,8 +50,9 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="AdministradorID" class="form-label"></label>
-                    <select asp-for="AdministradorID" class="form-control" asp-items="ViewBag.Administrador"></select>
+                    <label for="AdministradorNome" class="form-label">Criador do Evento</label>
+                    <input type="text" class="form-control" id="AdministradorNome" value="@ViewBag.AdministradorNome" disabled />
+                    <input type="hidden" asp-for="AdministradorID" value="@ViewBag.AdministradorID" />
                 </div>
 
                 <div class="text-center">

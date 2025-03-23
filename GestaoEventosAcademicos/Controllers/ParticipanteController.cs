@@ -1,112 +1,121 @@
 ﻿using GestaoEventosAcademicos.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace GestaoEventosAcademicos.Controllers
 {
+    [Authorize]
     public class ParticipanteController : Controller
     {
-        public Context context;
+        private readonly Context _context;
+        private readonly UserManager<Usuario> _userManager;
 
-        public ParticipanteController(Context ctx)
+        public ParticipanteController(Context context, UserManager<Usuario> userManager)
         {
-            context = ctx;
+            _context = context;
+            _userManager = userManager;
         }
+
         public IActionResult Index()
         {
-            var participante = context.Participantes.Include(c => c.Curso).Include(c => c.Evento);
-            return View(participante);
+            var eventos = _context.Eventos.ToList();
+            return View(eventos);
         }
-        public IActionResult Create(string returnUrl = null)
+        public IActionResult ConfirmarInscricao(int eventoId)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            CarregarViewBags();
-            return View();
+            var evento = _context.Eventos.FirstOrDefault(e => e.EventoID == eventoId);
+            return View(evento);
         }
 
         [HttpPost]
-        public IActionResult Create(Participante participante, string returnUrl = null)
+        public IActionResult Inscrever(int eventoId)
         {
-            context.Add(participante);
-            context.SaveChanges();
-            TempData["SuccessMessage"] = "Participante criado com sucesso!";
+            var evento = _context.Eventos.FirstOrDefault(e => e.EventoID == eventoId);
+            var userId = _userManager.GetUserId(User);            
+            bool jaInscrito = _context.Inscricoes.Any(i => i.ParticipanteID == userId && i.EventoID == eventoId);
 
-            // Se houver um returnUrl, redireciona para lá, senão, segue o fluxo normal
-            if (!string.IsNullOrEmpty(returnUrl))
+            if (!jaInscrito)
             {
-                return Redirect(returnUrl);
+                var inscricao = new Inscricao
+                {
+                    ParticipanteID = userId,
+                    EventoID = eventoId,
+                    DataInscricao = DateTime.Now
+                };
+
+                _context.Inscricoes.Add(inscricao);
+                _context.SaveChanges();
+
+                TempData["Message"] = "Inscrição realizada com sucesso! Veja detalhes em Seus eventos";
+                return RedirectToAction("Index");
             }
-
-            return RedirectToAction("Index");
-        }
-
-
-        public IActionResult Details(int id)
-        {
-            var participante = context.Participantes
-                                .Include(p => p.Curso)
-                                .Include(p => p.Evento)
-                                .FirstOrDefault(p => p.ParticipanteID == id);
-
-            if (participante == null)
+            else
             {
-                return NotFound();
-            }
+                TempData["Message"] = "Você já está inscrito neste evento.";
+                return RedirectToAction("Index");
+            }            
+        }
+        public IActionResult MeusEventos()
+        {
+            var userId = _userManager.GetUserId(User);
+            var eventosInscritos = _context.Inscricoes
+                .Where(i => i.ParticipanteID == userId)
+                .Include(i => i.Evento) 
+                .Select(i => i.Evento)
+                .ToList();
 
-            return View(participante);
+            return View(eventosInscritos);
         }
 
-        public IActionResult Edit(int id)
+        public IActionResult ConfirmarCancelarInscricao(int eventoId)
         {
-            var participante = context.Participantes.Find(id);                
-            if (participante == null)
-            {
-                return NotFound();
-            }
-
-            CarregarViewBags(); 
-            return View(participante);
-        }
-
-
-        [HttpPost]
-        public IActionResult Edit(Participante participante)
-        {
-            //avisa a EF que o registro será modificado
-            context.Entry(participante).State = EntityState.Modified;
-            context.SaveChanges();
-            TempData["SuccessMessage"] = "Participante editado com sucesso!";
-            return RedirectToAction("Index");
-        }
-        private void CarregarViewBags()
-        {
-            ViewBag.Cursos = new SelectList(context.Cursos.OrderBy(f => f.Nome), "CursoID", "Nome");
-            ViewBag.Eventos = new SelectList(context.Eventos.OrderBy(e => e.Nome), "EventoID", "Nome");
-        }
-
-        public IActionResult Delete(int id)
-        {
-            var participante = context.Participantes
-                .Include(p => p.Curso)
-                .Include(p => p.Evento)
-                .FirstOrDefault(p => p.ParticipanteID == id);
-
-            if (participante == null)
-            {
-                return NotFound();
-            }
-
-            return View(participante);
+            var evento = _context.Eventos.FirstOrDefault(e => e.EventoID == eventoId);
+            return View(evento);
         }
 
         [HttpPost]
-        public IActionResult Delete(Participante participante)
+        public IActionResult CancelarInscricao(int eventoId)
         {
-            context.Participantes.Remove(participante);
-            context.SaveChanges();
-            TempData["SuccessMessage"] = "Participante excluido com sucesso!";
-            return RedirectToAction("Index");
+            var userId = _userManager.GetUserId(User);
+            var inscricao = _context.Inscricoes
+                .FirstOrDefault(i => i.ParticipanteID == userId && i.EventoID == eventoId);
+
+            if (inscricao != null)
+            {
+                _context.Inscricoes.Remove(inscricao);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("MeusEventos");
         }
+
+        public IActionResult Perfil()
+        {
+            var participanteID = _userManager.GetUserId(User);
+            var participante = _context.Participantes
+                                       .Include(p => p.Curso) 
+                                       .FirstOrDefault(p => p.Id == participanteID);
+
+            return View(participante);
+        }
+
+        //TELA ONDE CARREGARÁ TODOS OS CERTIFICADOS DO ALUNO
+        //public IActionResult Certificados() 
+        //{
+            
+        //}
+
+        //para cada certificado encontrado para o participante logado 
+        //um botao onde podera clicar e visualizar o certificado
+        //colocar botao para exportar para pdf ou alguma outra coisa
+
+        //public IActionResult VisualizarCertificado()
+        //{
+
+        //}
+
     }
 }

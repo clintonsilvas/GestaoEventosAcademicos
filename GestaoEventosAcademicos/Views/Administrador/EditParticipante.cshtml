@@ -10,8 +10,8 @@
 <div class="row">
     <div class="col-md-6 mx-auto">
         <div class="card shadow-lg p-4">
-            <form asp-action="Edit">
-                <input type="hidden" asp-for="ParticipanteID" />
+            <form asp-action="EditParticipante">
+                <input type="hidden" asp-for="Id" />
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -22,21 +22,9 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="DataNascimento" class="form-label"></label>
-                    <input asp-for="DataNascimento" type="date" class="form-control" />
-                    <span asp-validation-for="DataNascimento" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-3">
                     <label asp-for="Email" class="form-label"></label>
-                    <input asp-for="Email" class="form-control" />
+                    <input asp-for="Email" class="form-control" readonly />
                     <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label asp-for="Senha" class="form-label"></label>
-                    <input asp-for="Senha" class="form-control" />
-                    <span asp-validation-for="Senha" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
@@ -45,26 +33,26 @@
                     <span asp-validation-for="Telefone" class="text-danger"></span>
                 </div>
 
-                <div class="form-group form-check mb-3">
-                    <input class="form-check-input" asp-for="Certificado" />
-                    <label class="form-check-label" asp-for="Certificado"></label>
+                <div class="form-group mb-3">
+                    <label asp-for="DataNascimento" class="form-label"></label>
+                    <input asp-for="DataNascimento" type="date" class="form-control" />
+                    <span asp-validation-for="DataNascimento" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="CursoID" class="form-label"></label>
-                    <select asp-for="CursoID" class="form-control" asp-items="ViewBag.Cursos"></select>
+                    <label asp-for="CursoID" class="form-label">Curso</label>
+                    <select asp-for="CursoID" class="form-control" asp-items="ViewBag.CursoID"></select>
                     <span asp-validation-for="CursoID" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="EventoID" class="form-label"></label>
-                    <select asp-for="EventoID" class="form-control" asp-items="ViewBag.Eventos"></select>
-                    <span asp-validation-for="EventoID" class="text-danger"></span>
+                    <label class="form-label">Nova Senha (opcional)</label>
+                    <input type="password" name="senha" class="form-control" placeholder="Digite uma nova senha" />
                 </div>
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Salvar</button>
-                    <a asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
+                    <a asp-action="ListarParticipantes" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
                 </div>
             </form>
         </div>
