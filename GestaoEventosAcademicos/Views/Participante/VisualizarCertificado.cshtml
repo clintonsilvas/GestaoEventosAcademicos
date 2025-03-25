@@ -1,0 +1,42 @@
+﻿@model GestaoEventosAcademicos.Models.Certificado
+
+@{
+    ViewData["Title"] = "Certificado de Aprovação";
+}
+
+<h2>Certificado de Aprovação</h2>
+
+<div class="card shadow-lg p-4">
+    <h4 class="text-center">Certificado de Participação</h4>
+    <p class="text-center"><strong>Este Certificado atesta que</strong></p>
+
+    <h5 class="text-center">
+        @Model.Participante.Nome
+    </h5>
+
+    <p class="text-center"><strong>concluiu com sucesso o evento</strong></p>
+
+    <h4 class="text-center">@Model.Evento.Nome</h4>
+
+    <p class="text-center">
+        <strong>Data de Emissão do Certificado:</strong> @Model.DataEmissao.ToString("dd/MM/yyyy")
+    </p>
+
+    <hr />
+
+    <div>
+        <p><strong>Curso:</strong> @Model.Participante.Curso.Nome</p>
+        <p><strong>Participante:</strong> @Model.Participante.Nome</p>
+        <p><strong>Data de Conclusão:</strong> @Model.DataEmissao.ToString("dd/MM/yyyy")</p>
+    </div>
+
+    <div class="text-center mt-4">
+        <p><i class="bi bi-check-circle"></i> Parabéns pela sua participação e sucesso!</p>
+    </div>
+</div>
+
+<hr />
+
+<div class="text-center mt-4">
+    <a href="@Url.Action("Certificados", "Participante")" class="btn btn-secondary">Voltar para Meus Certificados</a>
+</div>

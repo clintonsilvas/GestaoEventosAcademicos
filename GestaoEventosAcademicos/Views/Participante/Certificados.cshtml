@@ -1,0 +1,41 @@
+﻿@model List<GestaoEventosAcademicos.Models.Certificado>
+
+@{
+    ViewData["Title"] = "Meus Certificados";
+}
+
+<h2>Meus Certificados</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Evento</th>
+                <th>Participante</th>
+                <th>Curso</th>
+                <th>Data de Emissão</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var certificado in Model)
+            {
+                <tr>
+                    <td>@certificado.Evento.Nome</td>
+                    <td>@certificado.Participante.Nome</td>
+                    <td>@certificado.Participante.Curso.Nome</td>
+                    <td>@certificado.DataEmissao.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a href="@Url.Action("VisualizarCertificado", "Participante", new { id = certificado.CertificadoID })" class="btn btn-primary">Visualizar</a>
+                        <a href="@Url.Action("ExportarParaPdf", "Participante", new { id = certificado.CertificadoID })" class="btn btn-success">Exportar para PDF</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Você não tem certificados disponíveis.</p>
+}
