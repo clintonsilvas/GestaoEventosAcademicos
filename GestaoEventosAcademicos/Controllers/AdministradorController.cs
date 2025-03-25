@@ -28,7 +28,7 @@ namespace GestaoEventosAcademicos.Controllers
 
         [HttpPost]
         public IActionResult Create(Administrador administrador, string Senha)
-        {          
+        {
             administrador.UserName = administrador.Email;
             administrador.TipoUsuario = "Administrador";
 
@@ -40,10 +40,10 @@ namespace GestaoEventosAcademicos.Controllers
                 return RedirectToAction("Index");
             }
             else
-            {                                
+            {
                 TempData["Sucesso"] = "Não foi possivel cadastrar o administrador";
                 return RedirectToAction("Index");
-            }         
+            }
         }
         public IActionResult Details(int id)
         {
@@ -96,15 +96,13 @@ namespace GestaoEventosAcademicos.Controllers
         public IActionResult ListarParticipantes()
         {
             var participantes = context.Participantes
-                .Where(u => u.TipoUsuario == "Participante") 
+                .Where(u => u.TipoUsuario == "Participante")
                 .OrderBy(u => u.Nome)
                 .ToList();
 
             return View(participantes);
         }
 
-
-        
         public IActionResult CreateParticipante()
         {
             ViewBag.CursoID = new SelectList(context.Cursos.OrderBy(c => c.Nome), "CursoID", "Nome");
@@ -172,7 +170,7 @@ namespace GestaoEventosAcademicos.Controllers
 
             return RedirectToAction("ListarParticipantes");
         }
-        
+
         public IActionResult DetailsParticipante(string id)
         {
             var participante = context.Participantes
@@ -188,7 +186,7 @@ namespace GestaoEventosAcademicos.Controllers
             return View(participante);
         }
 
-        
+
         public IActionResult DeleteParticipante(string id)
         {
             var participante = context.Participantes
@@ -287,9 +285,5 @@ namespace GestaoEventosAcademicos.Controllers
 
             return RedirectToAction("Perfil");
         }
-        //na action ListarParticipantes adcionar um check box para marcar presenca do aluno 
-
-
-        //criar funcao post que muda o campo presenca na tabela incricao 
     }
 }

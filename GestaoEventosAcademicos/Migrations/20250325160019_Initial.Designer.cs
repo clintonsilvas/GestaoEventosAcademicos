@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestaoEventosAcademicos.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250322211001_Inicial")]
-    partial class Inicial
+    [Migration("20250325160019_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
