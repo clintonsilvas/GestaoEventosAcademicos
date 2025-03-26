@@ -36,7 +36,16 @@ namespace GestaoEventosAcademicos.Controllers
 
             if (resultado.Succeeded)
             {
-                TempData["Sucesso"] = "Administrador cadastrado com sucesso!";
+                var roleResult = _userManager.AddToRoleAsync(administrador, "Participante").Result;
+                if (roleResult.Succeeded)
+                {
+                    TempData["Sucesso"] = "Administrador cadastrado com sucesso!";
+                }
+                else
+                {
+                    TempData["Erro"] = "Administrador criado, mas não foi possível atribuir a role.";
+                }
+                
                 return RedirectToAction("Index");
             }
             else
