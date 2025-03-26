@@ -120,13 +120,14 @@ namespace GestaoEventosAcademicos.Controllers
         {
             var certificado = _context.Certificados
                 .Include(c => c.Evento)
+                .ThenInclude(e => e.Administrador) // Inclui Administrador do Evento
                 .Include(c => c.Participante)
-                .ThenInclude(p => p.Curso)
+                .ThenInclude(p => p.Curso) // Inclui o Curso do Participante
                 .FirstOrDefault(c => c.CertificadoID == id);
 
             if (certificado == null)
             {
-                return NotFound();
+                return NotFound("Certificado não encontrado.");
             }
 
             return View(certificado);
