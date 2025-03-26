@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /GestaoEventosAcademicos/appsettings.json
 /GestaoEventosAcademicos/appsettings.Development.json
+/GestaoEventosAcademicos/Migrations/20250326004341_Inicial.cs
+/GestaoEventosAcademicos/Migrations/ContextModelSnapshot.cs
