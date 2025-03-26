@@ -10,7 +10,7 @@ using TheArtOfDev.HtmlRenderer.PdfSharp;
 
 namespace GestaoEventosAcademicos.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Participante")]
     public class ParticipanteController : Controller
     {
         private readonly Context _context;
@@ -134,17 +134,3 @@ namespace GestaoEventosAcademicos.Controllers
 
     }
 }
-
-
-
-
-//para cada certificado encontrado para o participante logado 
-//um botao onde podera clicar e visualizar o certificado
-//colocar botao para exportar para pdf ou alguma outra coisa
-
-//public IActionResult VisualizarCertificado()
-//{
-
-//}
-
-

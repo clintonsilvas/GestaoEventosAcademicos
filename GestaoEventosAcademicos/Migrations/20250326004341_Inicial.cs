@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GestaoEventosAcademicos.Migrations
 {
-    /// <inheritdoc />
-    public partial class Initial : Migration
+    ///a <inheritdoc />
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

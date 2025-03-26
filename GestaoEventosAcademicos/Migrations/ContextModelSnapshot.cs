@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 #nullable disable
 
 namespace GestaoEventosAcademicos.Migrations
-{
+{   //a
     [DbContext(typeof(Context))]
     partial class ContextModelSnapshot : ModelSnapshot
     {

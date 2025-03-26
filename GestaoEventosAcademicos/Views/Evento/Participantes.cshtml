@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Participantes do Evento";
     var evento = ViewBag.Evento as GestaoEventosAcademicos.Models.Evento;
+    var participantesComCertificado = ViewBag.ParticipantesComCertificado as List<string>;
 }
 
 <h2 class="text-primary"><i class="bi bi-people"></i> Participantes Inscritos</h2>
@@ -50,12 +51,20 @@
             <tbody>
                 @foreach (var participante in Model)
                 {
+                    bool certificadoEmitido = participantesComCertificado.Contains(participante.Id);
                     <tr>
                         <td>@participante.Nome</td>
                         <td>@participante.Email</td>
                         <td>@participante.Telefone</td>
                         <td>
+                        @if (certificadoEmitido)
+                        {
+                            <span class="text-success"><i class="bi bi-check-circle"></i> Certificado Emitido</span>
+                        }
+                        else
+                        {
                             <input type="checkbox" name="participantesPresentes" value="@participante.Id" />
+                        }
                         </td>
                     </tr>
                 }

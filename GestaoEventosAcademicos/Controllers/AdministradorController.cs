@@ -120,12 +120,23 @@ namespace GestaoEventosAcademicos.Controllers
 
             if (resultado.Succeeded)
             {
-                TempData["Sucesso"] = "Participante cadastrado com sucesso!";
+                // Adiciona o participante à role "Participante"
+                var roleResult = _userManager.AddToRoleAsync(participante, "Participante").Result;
+
+                if (roleResult.Succeeded)
+                {
+                    TempData["Sucesso"] = "Participante cadastrado com sucesso!";
+                }
+                else
+                {
+                    TempData["Erro"] = "Participante criado, mas não foi possível atribuir a role.";
+                }
+
                 return RedirectToAction("ListarParticipantes");
             }
             else
             {
-                TempData["Erro"] = "Não foi possivel cadastrar o Participante";
+                TempData["Erro"] = "Não foi possível cadastrar o Participante.";
                 return RedirectToAction("ListarParticipantes");
             }
         }

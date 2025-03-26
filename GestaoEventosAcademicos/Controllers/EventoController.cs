@@ -83,8 +83,7 @@ namespace GestaoEventosAcademicos.Controllers
         //buscar participantes do evento e cabeçalho com dados do evento
         public IActionResult Participantes(int id)
         {
-            var evento = context.Eventos
-                                .FirstOrDefault(e => e.EventoID == id);
+            var evento = context.Eventos.FirstOrDefault(e => e.EventoID == id);
 
             if (evento == null)
             {
@@ -93,14 +92,23 @@ namespace GestaoEventosAcademicos.Controllers
             }
 
             var inscritos = context.Inscricoes
-                                   .Where(i => i.EventoID == id)
-                                   .Include(i => i.Participante) // Inclui os dados do participante
-                                   .Select(i => i.Participante) // Obtém apenas os participantes
-                                   .ToList();
+                .Where(i => i.EventoID == id)
+                .Include(i => i.Participante)
+                .Select(i => i.Participante)
+                .ToList();
 
-            ViewBag.Evento = evento; // Passa os detalhes do evento para a View
+            // Pegando os IDs dos participantes que já possuem certificado
+            var participantesComCertificado = context.Certificados
+                .Where(c => c.EventoID == id)
+                .Select(c => c.ParticipanteID)
+                .ToList();
+
+            ViewBag.ParticipantesComCertificado = participantesComCertificado;
+
+            ViewBag.Evento = evento; // Passando os dados do evento
             return View(inscritos);
         }
+
 
         [HttpPost]
         public IActionResult AtualizarPresenca(List<string> participantesPresentes, int eventoId)
