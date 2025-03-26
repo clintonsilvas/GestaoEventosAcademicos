@@ -8,6 +8,21 @@
 <h2 class="text-primary"><i class="bi bi-people"></i> Participantes Inscritos</h2>
 <hr />
 
+<!-- Exibindo mensagens de sucesso ou erro -->
+@if (TempData["Sucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Sucesso"]
+    </div>
+}
+
+@if (TempData["Erro"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Erro"]
+    </div>
+}
+
 @if (evento != null)
 {
     <div class="card shadow-lg p-4">
@@ -19,25 +34,35 @@
 
 @if (Model.Any())
 {
-    <table class="table mt-4">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Telefone</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var participante in Model)
-            {
+    <form asp-action="AtualizarPresenca" method="post">
+        <!-- Adiciona o eventoId no formulário -->
+        <input type="hidden" name="eventoId" value="@evento.EventoID" />
+
+        <table class="table mt-4">
+            <thead>
                 <tr>
-                    <td>@participante.Nome</td>
-                    <td>@participante.Email</td>
-                    <td>@participante.Telefone</td>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Presença</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var participante in Model)
+                {
+                    <tr>
+                        <td>@participante.Nome</td>
+                        <td>@participante.Email</td>
+                        <td>@participante.Telefone</td>
+                        <td>
+                            <input type="checkbox" name="participantesPresentes" value="@participante.Id" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-success">Emitir Certificados</button>
+    </form>
 }
 else
 {

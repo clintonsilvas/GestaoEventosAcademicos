@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /GestaoEventosAcademicos/appsettings.json
+/GestaoEventosAcademicos/appsettings.Development.json
