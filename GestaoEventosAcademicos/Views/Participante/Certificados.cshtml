@@ -28,7 +28,6 @@
                     <td>@certificado.DataEmissao.ToString("dd/MM/yyyy")</td>
                     <td>
                         <a href="@Url.Action("VisualizarCertificado", "Participante", new { id = certificado.CertificadoID })" class="btn btn-primary">Visualizar</a>
-                        <a href="@Url.Action("ExportarParaPdf", "Participante", new { id = certificado.CertificadoID })" class="btn btn-success">Exportar para PDF</a>
                     </td>
                 </tr>
             }
