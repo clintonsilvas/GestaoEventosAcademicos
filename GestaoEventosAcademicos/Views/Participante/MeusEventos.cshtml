@@ -23,7 +23,16 @@
                 <td>@evento.Data.ToString("dd/MM/yyyy")</td>
                 <td>@evento.Local</td>
                 <td>
-                    <a class="btn btn-danger" asp-action="ConfirmarCancelarInscricao" asp-route-eventoId="@evento.EventoID">Cancelar Inscrição</a>
+                    @if (!ViewBag.EventosComCertificado.Contains(evento.EventoID))
+                    {
+                        <a class="btn btn-danger" asp-action="ConfirmarCancelarInscricao" asp-route-eventoId="@evento.EventoID">
+                            Cancelar Inscrição
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-success"><i class="bi bi-check-circle"></i> Evento concluido</span>
+                    }
                 </td>
             </tr>
         }

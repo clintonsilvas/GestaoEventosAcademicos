@@ -6,8 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuração do banco de dados
 builder.Services.AddDbContext<Context>(options =>
+    //options.UseSqlServer(builder.Configuration["Data:GestaoEventosAcademicos:ConnectionString"]));
     options.UseSqlServer(builder.Configuration["Data:BancoGestaoEventosAcademicos:ConnectionString"]));
-    //options.UseSqlServer(builder.Configuration["Data:BancoGestaoEventosAcademicos:ConnectionString"]));
 
 // Configuração do Identity
 builder.Services.AddIdentity<Usuario, IdentityRole>()
@@ -34,7 +34,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    await SeedData.EnsurePopulated(app);
+    //await SeedData.EnsurePopulated(app);
 }
 
 if (!app.Environment.IsDevelopment())
@@ -50,7 +50,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=Info}/{action=Index}/{id?}");
 
 
 app.Run();

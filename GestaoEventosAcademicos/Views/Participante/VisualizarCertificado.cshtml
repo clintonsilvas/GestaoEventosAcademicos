@@ -54,7 +54,95 @@
 
         <div class="text-center mt-4">
             <a href="@Url.Action("Certificados", "Participante")" class="btn btn-secondary"><i class="bi bi-arrow-left-circle"></i> Voltar</a>
-            <a href="@Url.Action("ExportarParaPdf", "Participante", new { id = Model.CertificadoID })" class="btn btn-success"><i class="bi bi-file-earmark-pdf-fill"></i> Baixar PDF</a>
+            <button class="btn btn-success" id="baixarCertificadoBtn"><i class="bi bi-file-earmark-pdf-fill"></i> Baixar PDF</button>
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    document.getElementById('baixarCertificadoBtn').addEventListener('click', function () {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Definindo a fonte e o estilo
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(24);
+        doc.setTextColor(0, 56, 116); // Cor azul escuro para o título
+        doc.text("Certificado de Aprovação", 105, 30, { align: 'center' });
+
+        // Linha divisória (mais clara)
+        doc.setDrawColor(200, 200, 200); // Linha cinza clara
+        doc.setLineWidth(0.3); // Espessura mais fina
+        doc.line(10, 40, 200, 40); // Linha horizontal
+
+        // Subtítulo
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(16);
+        doc.setTextColor(0, 0, 0); // Cor preta
+        doc.text("Certificado de Participação", 105, 55, { align: 'center' });
+
+        // Texto do certificado
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0); // Cor preta
+        doc.text("Este certificado atesta que", 105, 70, { align: 'center' });
+
+        // Nome do participante (destacado em tamanho maior)
+        doc.setFontSize(18);
+        doc.setTextColor(0, 123, 255); // Cor azul para o nome do participante
+        doc.text("@Html.Raw(Model.Participante.Nome)", 105, 85, { align: 'center' });
+
+        // Evento concluído
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0); // Cor preta
+        doc.text("concluiu com sucesso o evento", 105, 100, { align: 'center' });
+
+        // Nome do evento (em verde)
+        doc.setFontSize(16);
+        doc.setTextColor(40, 167, 69); // Cor verde para o nome do evento
+        doc.text("@Html.Raw(Model.Evento.Nome)", 105, 115, { align: 'center' });
+
+        // Gerar o valor da data no Razor e passá-lo para o JavaScript
+        var dataEmissao = '@Model.DataEmissao.ToString("dd/MM/yyyy")';
+
+        // Data de emissão
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0); // Cor preta
+        doc.text("Data de Emissão: " + dataEmissao, 105, 130, { align: 'center' });
+
+        // Linha divisória (mais clara)
+        doc.setDrawColor(200, 200, 200); // Linha cinza clara
+        doc.setLineWidth(0.3); // Espessura mais fina
+        doc.line(10, 140, 200, 140); // Linha horizontal
+
+        // Informações do curso e participante (mais centralizado e aproveitando melhor o espaço)
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0); // Cor preta
+        const xLeft = 40; // Posição para o texto do Curso
+        const xRight = 170; // Posição para o texto do Participante (mais distante para não ficar colado)
+        doc.text("Curso: @Html.Raw(Model.Participante.Curso.Nome)", xLeft, 150);
+        doc.text("Participante: @Html.Raw(Model.Participante.Nome)", xRight, 150, { align: 'right' });
+
+        // Mensagem final (aumentando o espaçamento)
+        doc.setFontSize(12);
+        doc.setTextColor(108, 117, 125); // Cor cinza para a mensagem final
+        doc.text("Parabéns pela sua participação e sucesso!", 105, 170, { align: 'center' });
+
+        // Linha divisória (mais clara)
+        doc.setDrawColor(200, 200, 200); // Linha cinza clara
+        doc.setLineWidth(0.3); // Espessura mais fina
+        doc.line(10, 180, 200, 180); // Linha horizontal
+
+        // Assinatura do Administrador
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0); // Cor preta
+        doc.text("@Html.Raw(Model.Evento.Administrador.Nome)", 105, 190, { align: 'center' });
+
+        doc.setFontSize(12);
+        doc.setTextColor(108, 117, 125); // Cor cinza para o título da assinatura
+        doc.text("Administrador do Curso", 105, 200, { align: 'center' });
+
+        // Salvando o PDF
+        doc.save("Certificado.pdf");
+    });
+</script>

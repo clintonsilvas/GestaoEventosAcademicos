@@ -50,5 +50,26 @@ namespace GestaoEventosAcademicos.Controllers
             _signInManager.SignOutAsync();
             return RedirectToAction("Index");
         }
+        
+        public IActionResult RedefinirSenha()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RedefinirSenha(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                TempData["Erro"] = "Informe um e-mail válido.";
+                return View();
+            }
+
+            // Simulação de envio de e-mail (substituir por lógica real)
+            TempData["Sucesso"] = "Um link de redefinição de senha foi enviado para seu e-mail.";
+
+            return RedirectToAction("Login");
+        }
+
     }
 }

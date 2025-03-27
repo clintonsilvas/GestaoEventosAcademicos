@@ -6,17 +6,22 @@
     <title>@ViewData["Title"] - Gestão de Eventos Acadêmicos</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/GestaoEventosAcademicos.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="icon" type="image/png" href="~/favicon.ico" asp-append-version="true" />
 </head>
-<body class="bg-light d-flex align-items-center justify-content-center" style="height: 100vh;">
+<body >
     <div class="container">
-        <main role="main" class="p-4 shadow rounded bg-white" style="max-width: 400px; margin: auto;">
+        <main role="main" class="pb-3">
             @RenderBody()
         </main>
-    </div>
 
+
+    </div>
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

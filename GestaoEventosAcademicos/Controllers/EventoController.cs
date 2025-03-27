@@ -73,9 +73,19 @@ namespace GestaoEventosAcademicos.Controllers
 
         [HttpPost]
         public IActionResult Delete(Evento evento)
-        {            
-            context.Eventos.Remove(evento);
-            context.SaveChanges();            
+        {
+            try 
+            {
+                context.Eventos.Remove(evento);
+                context.SaveChanges();
+                TempData["Sucesso"] = "Evento excluído com sucesso";
+
+            }
+            catch (Exception)
+            {
+                TempData["Erro"] = "Não foi possível excluir o evento. Ele pode estar associado a inscricoes ou outras informações.";
+            }
+                        
             return RedirectToAction("Index");
         }
 

@@ -1,0 +1,57 @@
+﻿@{
+    Layout = "_LayoutAuth";
+    ViewData["Title"] = "Sobre o Projeto";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h1 class="text-primary fw-bolder">
+            Gestão de Eventos Acadêmicos - Unifenas
+        </h1>
+        <p class="text-muted">Sistema para gerenciar inscrições e participações em eventos acadêmicos.</p>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-light">
+                <div class="card-body text-center">
+                    <i class="bi bi-list-task fs-1 text-primary mb-3"></i>
+                    <h3 class="card-title text-primary fw-bold">Funcionalidades</h3>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle text-primary"></i> <strong class="fw-bold">Gestão de Eventos:</strong> Administradores podem criar, editar e excluir eventos.</li>
+                        <li><i class="bi bi-person-check text-primary"></i> <strong class="fw-bold">Inscrição de Participantes:</strong> Alunos podem se inscrever em eventos e visualizar suas inscrições.</li>
+                        <li><i class="bi bi-file-earmark-check text-primary"></i> <strong class="fw-bold">Emissão de Certificados:</strong> Alunos podem acessar e baixar seus certificados de participação.</li>
+                        <li><i class="bi bi-person-badge text-primary"></i> <strong class="fw-bold">Gestão de Usuários:</strong> Administradores podem cadastrar, editar e excluir usuários (alunos e professores).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-lg border-light">
+                <div class="card-body text-center">
+                    <i class="bi bi-cpu fs-1 text-primary mb-3"></i>
+                    <h3 class="card-title text-primary fw-bold">Tecnologias</h3>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-code-slash text-primary"></i> <strong class="fw-bold">ASP.NET Core MVC</strong> Framework para desenvolvimento da aplicação web, garantindo uma estrutura MVC robusta e escalável.</li>
+                        <li><i class="bi bi-database-fill text-primary"></i> <strong class="fw-bold">Entity Framework Core</strong> ORM utilizado para acesso e manipulação eficiente dos dados no banco de dados relacional.</li>
+                        <li><i class="bi bi-shield-lock text-primary"></i> <strong class="fw-bold">Identity</strong> Sistema para autenticação e autorização de usuários, garantindo segurança na aplicação.</li>
+                        <li><i class="bi bi-bootstrap text-primary"></i> <strong class="fw-bold">Bootstrap</strong> Framework CSS para construção de interfaces responsivas e atraentes com design moderno.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <p class="fs-5 text-muted">
+            Desenvolvido por <span class="fw-bold">Clinton Nogueira Silva</span> e <span class="fw-bold">Luiz Felipe do Reis Baldini</span>,
+            alunos do 5º período de Ciência da Computação - Unifenas, na disciplina de <span class="fw-bold">Desenvolvimento Web Back End</span>,
+            sob orientação do professor <span class="fw-bold">Celso de Ávila Ramos</span>.
+        </p>
+    </div>
+    <div class="text-center mt-4">
+        <a href="@Url.Action("Index", "Login")" class="btn btn-primary btn-lg">Fazer Login </a>
+    </div>
+</div>
+
+
+    

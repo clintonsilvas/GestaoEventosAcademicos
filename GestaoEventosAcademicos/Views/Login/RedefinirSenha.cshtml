@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "_LayoutAuth";
+    ViewData["Title"] = "Redefinir Senha";
+}
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center text-primary fw-bold">Redefinir Senha</h2>
+        <p class="text-center text-muted">Informe seu e-mail para receber instruções.</p>
+
+        @if (TempData["Erro"] != null)
+        {
+            <div class="alert alert-danger">@TempData["Erro"]</div>
+        }
+
+        @if (TempData["Sucesso"] != null)
+        {
+            <div class="alert alert-success">@TempData["Sucesso"]</div>
+        }
+
+        <form method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" class="form-control shadow-sm" id="email" name="email" required placeholder="Digite seu e-mail" />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 fw-bold">Enviar</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="@Url.Action("Login", "Index")" class="text-decoration-none text-primary">Voltar ao Login</a>
+        </div>
+    </div>
+</div>

@@ -3,30 +3,45 @@
     ViewData["Title"] = "Login";
 }
 
-<h2 class="text-center">Login</h2>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="row shadow-lg p-4 rounded" style="max-width: 800px; width: 100%;">
 
-@if (TempData["Erro"] != null)
-{
-    <div class="alert alert-danger">@TempData["Erro"]</div>
-}
+        <!-- Coluna Esquerda: Título -->
+        <div class="col-md-6 d-flex flex-column justify-content-center text-center">
+            <h2 class="text-primary fw-bold">Eventos Acadêmicos Unifenas</h2>
+            <p class="text-muted">Gerencie sua participação em eventos acadêmicos.</p>
+            <img src="~/img/unifenas.png" class="img-fluid mt-3 d-none d-md-block" alt="Eventos Acadêmicos" />
+        </div>
 
-@if (TempData["Sucesso"] != null)
-{
-    <div class="alert alert-success">@TempData["Sucesso"]</div>
-}
+        <!-- Coluna Direita: Formulário -->
+        <div class="col-md-6">
+            @if (TempData["Erro"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Erro"]</div>
+            }
 
+            @if (TempData["Sucesso"] != null)
+            {
+                <div class="alert alert-success">@TempData["Sucesso"]</div>
+            }
 
-<form method="post">
-    <div class="form-group">
-        <label for="email">E-mail</label>
-        <input type="email" class="form-control" id="email" name="email" required />
+            <form method="post">
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control shadow-sm" id="email" name="email" required placeholder="Digite seu e-mail" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input type="password" class="form-control shadow-sm" id="senha" name="senha" required placeholder="Digite sua senha" />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 fw-bold">Entrar</button>
+            </form>
+
+            @* <div class="text-center mt-3">
+                <a href="@Url.Action("RedefinirSenha", "Login")" class="text-decoration-none text-primary">Esqueceu a senha?</a>
+            </div> *@
+        </div>
     </div>
-
-    <div class="form-group">
-        <label for="senha">Senha</label>
-        <input type="password" class="form-control" id="senha" name="senha" required />
-    </div>
-
-    <button type="submit" class="btn btn-primary mt-3 w-100">Entrar</button>
-</form>
-
+</div>

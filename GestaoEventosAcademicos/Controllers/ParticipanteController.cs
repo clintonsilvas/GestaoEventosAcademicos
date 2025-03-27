@@ -64,11 +64,22 @@ namespace GestaoEventosAcademicos.Controllers
         public IActionResult MeusEventos()
         {
             var userId = _userManager.GetUserId(User);
+
+            // Obtendo os eventos em que o usuário está inscrito
             var eventosInscritos = _context.Inscricoes
                 .Where(i => i.ParticipanteID == userId)
                 .Include(i => i.Evento)
                 .Select(i => i.Evento)
                 .ToList();
+
+            // Obtendo os IDs dos eventos em que o usuário já recebeu certificado
+            var eventosComCertificado = _context.Certificados
+                .Where(c => c.ParticipanteID == userId)
+                .Select(c => c.EventoID)
+                .ToList();
+
+            // Passando a lista para a ViewBag
+            ViewBag.EventosComCertificado = eventosComCertificado;
 
             return View(eventosInscritos);
         }
