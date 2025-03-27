@@ -17,7 +17,7 @@ builder.Services.AddIdentity<Usuario, IdentityRole>()
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Login/Index"; // Redireciona para a tela de login
-    options.AccessDeniedPath = "/Home/AcessoNegado"; // Tela de erro de acesso negado
+    options.AccessDeniedPath = "/Info/AcessoNegado"; // Tela de erro de acesso negado
 });
 
 builder.Services.AddSession(options =>

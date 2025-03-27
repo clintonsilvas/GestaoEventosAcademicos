@@ -4,37 +4,58 @@
     ViewData["Title"] = "Meus Eventos";
 }
 
-<h2>Meus Eventos Inscritos</h2>
+<h1 class="mb-4">Meus Eventos Inscritos</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Data</th>
-            <th>Local</th>
-            <th>Ação</th>
-        </tr>
-    </thead>
-    <tbody>
+@if (TempData["Sucesso"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Sucesso"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Erro"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Erro"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (Model.Any())
+{
+    <div class="row">
         @foreach (var evento in Model)
         {
-            <tr>
-                <td>@evento.Nome</td>
-                <td>@evento.Data.ToString("dd/MM/yyyy")</td>
-                <td>@evento.Local</td>
-                <td>
-                    @if (!ViewBag.EventosComCertificado.Contains(evento.EventoID))
-                    {
-                        <a class="btn btn-danger" asp-action="ConfirmarCancelarInscricao" asp-route-eventoId="@evento.EventoID">
-                            Cancelar Inscrição
-                        </a>
-                    }
-                    else
-                    {
-                        <span class="text-success"><i class="bi bi-check-circle"></i> Evento concluido</span>
-                    }
-                </td>
-            </tr>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-lg rounded-lg border-0">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">@evento.Nome</h5>
+                        <p class="card-text">
+                            <strong>Data:</strong> @evento.Data.ToString("dd/MM/yyyy") <br />
+                            <strong>Local:</strong> @evento.Local
+                        </p>
+
+                        <div class="d-flex justify-content-between">
+                            @if (!ViewBag.EventosComCertificado.Contains(evento.EventoID))
+                            {
+                                <a class="btn btn-outline-danger btn-sm" asp-action="ConfirmarCancelarInscricao" asp-route-eventoId="@evento.EventoID">
+                                    <i class="bi bi-x-circle"></i> Cancelar Inscrição
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-success fw-bold"><i class="bi bi-check-circle"></i> Evento Concluído</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+}
+else
+{
+    <p>Você não tem certificados disponíveis.</p>
+}
+
+

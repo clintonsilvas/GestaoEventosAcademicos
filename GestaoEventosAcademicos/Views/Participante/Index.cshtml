@@ -4,7 +4,7 @@
     ViewData["Title"] = "Eventos Disponíveis";
 }
 
-<h1 class="mb-4 text-center">Eventos Disponíveis</h1>
+<h1 class="mb-4">Eventos Disponíveis</h1>
 
 @if (TempData["Message"] != null)
 {
@@ -18,7 +18,7 @@
     @foreach (var evento in Model)
     {
         <div class="col-md-4 mb-4">
-            <div class="card shadow-sm rounded-lg border-0">
+            <div class="card shadow-lg rounded-lg border-0">
                 <div class="card-body">
                     <h5 class="card-title fw-bold">@evento.Nome</h5>
                     <p class="card-text">
