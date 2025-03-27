@@ -365,3 +365,6 @@ FodyWeavers.xsd
 /GestaoEventosAcademicos/appsettings.Development.json
 /GestaoEventosAcademicos/Migrations/20250326004341_Inicial.cs
 /GestaoEventosAcademicos/Migrations/ContextModelSnapshot.cs
+/GestaoEventosAcademicos/Program.cs
+/GestaoEventosAcademicos/appsettings.json
+/GestaoEventosAcademicos/Migrations/20250326004341_Inicial.Designer.cs
