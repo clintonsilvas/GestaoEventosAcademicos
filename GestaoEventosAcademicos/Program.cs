@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuração do banco de dados
 builder.Services.AddDbContext<Context>(options =>
-    options.UseSqlServer(builder.Configuration["Data:GestaoEventosAcademicos:ConnectionString"]));
+    options.UseSqlServer(builder.Configuration["Data:BancoGestaoEventosAcademicos:ConnectionString"]));
     //options.UseSqlServer(builder.Configuration["Data:BancoGestaoEventosAcademicos:ConnectionString"]));
 
 // Configuração do Identity
